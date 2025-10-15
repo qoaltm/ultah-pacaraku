@@ -1,46 +1,160 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ucapan Ulang Tahun</title>
-    <!-- Link ke Swiper.js CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-    <style>
-        /* CSS dasar di sini */
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #fff7e6; }
-        .swiper-container { width: 80%; padding-top: 50px; }
-        .slide { padding: 20px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selamat Ulang Tahun Sayang 💖</title>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500&display=swap');
+
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+        overflow: hidden;
+        color: #fff;
+        text-align: center;
+    }
+
+    .container {
+        position: relative;
+        z-index: 2;
+        padding: 60px 20px;
+    }
+
+    h1 {
+        font-family: 'Pacifico', cursive;
+        font-size: 2.5em;
+        animation: fadeIn 2s ease;
+    }
+
+    p {
+        font-size: 1.1em;
+        opacity: 0;
+        animation: fadeInUp 1s ease forwards;
+        animation-delay: 2s;
+    }
+
+    button {
+        background-color: #fff;
+        color: #ff6699;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 30px;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background-color: #ffb6c1;
+        color: white;
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .typing {
+        border-right: 3px solid #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 0;
+        animation: typing 4s steps(30, end) forwards, blink 0.6s infinite;
+        display: inline-block;
+        font-size: 1.2em;
+        margin-top: 15px;
+    }
+
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+
+    @keyframes blink {
+        50% { border-color: transparent; }
+    }
+</style>
 </head>
 <body>
-    <!-- Kontainer Swiper untuk slide -->
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide slide">
-                <h2>🎉 Selamat Ulang Tahun ke-18 Sayangkuu!🎂</h2>
-                <p>Semoga ke depannya kamu lebih happy terus dan ga marah2 lagi sama mas</p>
-            </div>
-            <div class="swiper-slide slide">
-                <h2>💖 Dari Aku untuk Kamu 💖</h2>
-                <p>Aku bersyukur banget punya kamu di hidupku!</p>
-            </div>
-            <!-- Tambahin slide lain kalau mau -->
-        </div>
-    </div>
 
-    <!-- Elemen audio untuk musik -->
-    <audio id="bg-music" loop>
-        <source src="lagu-ultah.mp3" type="audio/mpeg">
-    </audio>
+<canvas id="confetti"></canvas>
 
-    <!-- Swiper.js dan inisialisasi -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script>
-        const swiper = new Swiper('.swiper-container', { loop: true });
-        document.body.addEventListener('click', () => {
-            document.getElementById('bg-music').play();
-        }, { once: true });
-    </script>
+<div class="container">
+    <h1>🎉 Selamat Ulang Tahun, Sayangku 💖</h1>
+    <div class="typing">Semoga harimu penuh tawa dan cinta 🥰</div>
+    <p>Setiap detik bersamamu adalah hadiah terindah dalam hidupku 💫</p>
+
+    <button onclick="playMusic()">💗 Putar Musik</button>
+</div>
+
+<audio id="bg-music" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9c5108f6d1.mp3?filename=romantic-piano-loop-11186.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // Musik Play
+    function playMusic() {
+        document.getElementById('bg-music').play();
+        alert('Musik menyala 🎶');
+    }
+
+    // Konfeti Animasi
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const confetti = [];
+    for (let i = 0; i < 100; i++) {
+        confetti.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            r: Math.random() * 6 + 2,
+            d: Math.random() * 0.5 + 0.5,
+            color: `hsl(${Math.random() * 360}, 100%, 70%)`
+        });
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        confetti.forEach(c => {
+            ctx.beginPath();
+            ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2, false);
+            ctx.fillStyle = c.color;
+            ctx.fill();
+        });
+        update();
+    }
+
+    function update() {
+        confetti.forEach(c => {
+            c.y += c.d;
+            if (c.y > canvas.height) {
+                c.y = -10;
+                c.x = Math.random() * canvas.width;
+            }
+        });
+    }
+
+    setInterval(draw, 30);
+</script>
+
 </body>
 </html>
