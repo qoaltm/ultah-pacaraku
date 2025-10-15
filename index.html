@@ -7,6 +7,8 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500&display=swap');
 
+    * { box-sizing: border-box; }
+
     body {
         margin: 0;
         font-family: 'Poppins', sans-serif;
@@ -31,6 +33,7 @@
     .slide.active {
         opacity: 1;
         transform: scale(1);
+        z-index: 2;
     }
 
     img {
@@ -56,8 +59,16 @@
         text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
     }
 
+    #controls {
+        position: fixed;
+        bottom: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        z-index: 10;
+    }
+
     button {
-        margin-top: 25px;
         background: #fff;
         color: #ff7fa3;
         border: none;
@@ -76,15 +87,11 @@
     }
 
     #musicBtn {
-        position: fixed;
-        bottom: 15px;
-        right: 15px;
-        background: #fff;
-        color: #ff7fa3;
         border-radius: 50%;
         width: 50px;
         height: 50px;
         font-size: 20px;
+        padding: 0;
     }
 </style>
 </head>
@@ -121,11 +128,11 @@
     <h1>💐 Love youuuu 💐</h1>
 </div>
 
-<!-- Next Button -->
-<button id="nextBtn">Next ➜</button>
-
-<!-- Music Button -->
-<button id="musicBtn">🎵</button>
+<!-- Controls -->
+<div id="controls">
+    <button id="nextBtn">Next ➜</button>
+    <button id="musicBtn">🎵</button>
+</div>
 
 <!-- Audio -->
 <audio id="bg-music" loop>
@@ -139,19 +146,25 @@
     const musicBtn = document.getElementById('musicBtn');
     let index = 0;
 
+    // ganti slide
     nextBtn.addEventListener('click', () => {
         slides[index].classList.remove('active');
         index = (index + 1) % slides.length;
         slides[index].classList.add('active');
     });
 
-    musicBtn.addEventListener('click', () => {
-        if (music.paused) {
-            music.play();
-            musicBtn.textContent = "⏸️";
-        } else {
-            music.pause();
-            musicBtn.textContent = "🎵";
+    // play/pause musik
+    musicBtn.addEventListener('click', async () => {
+        try {
+            if (music.paused) {
+                await music.play();
+                musicBtn.textContent = "⏸️";
+            } else {
+                music.pause();
+                musicBtn.textContent = "🎵";
+            }
+        } catch (err) {
+            alert("Klik dulu layar atau tombol musik untuk memulai 🎶");
         }
     });
 </script>
