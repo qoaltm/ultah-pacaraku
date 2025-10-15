@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Selamat Ulang Tahun Sayang 💖</title>
-
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500&display=swap');
 
@@ -13,40 +12,62 @@
         font-family: 'Poppins', sans-serif;
         background: linear-gradient(135deg, #ffdde1, #ee9ca7);
         overflow: hidden;
-        color: #fff;
-        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        transition: background 1s ease;
     }
 
-    .container {
-        position: relative;
-        z-index: 2;
-        padding: 60px 20px;
+    .slide {
+        position: absolute;
+        text-align: center;
+        color: #fff;
+        opacity: 0;
+        transform: scale(0.95);
+        transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .slide.active {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    img {
+        width: 280px;
+        height: 280px;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        border: 4px solid #fff;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
     }
 
     h1 {
         font-family: 'Pacifico', cursive;
-        font-size: 2.5em;
-        animation: fadeIn 2s ease;
-    }
-
-    p {
-        font-size: 1.1em;
-        opacity: 0;
-        animation: fadeInUp 1s ease forwards;
-        animation-delay: 2s;
+        margin-top: 20px;
+        font-size: 1.7em;
+        color: #fff;
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
     }
 
     button {
-        background-color: #fff;
-        color: #ff6699;
+        margin-top: 25px;
+        background: #fff;
+        color: #ff7fa3;
         border: none;
         padding: 10px 25px;
         border-radius: 25px;
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
-        margin-top: 30px;
         transition: 0.3s;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
     button:hover {
@@ -54,106 +75,85 @@
         color: white;
     }
 
-    canvas {
+    #musicBtn {
         position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .typing {
-        border-right: 3px solid #fff;
-        white-space: nowrap;
-        overflow: hidden;
-        width: 0;
-        animation: typing 4s steps(30, end) forwards, blink 0.6s infinite;
-        display: inline-block;
-        font-size: 1.2em;
-        margin-top: 15px;
-    }
-
-    @keyframes typing {
-        from { width: 0 }
-        to { width: 100% }
-    }
-
-    @keyframes blink {
-        50% { border-color: transparent; }
+        bottom: 15px;
+        right: 15px;
+        background: #fff;
+        color: #ff7fa3;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
     }
 </style>
 </head>
 <body>
 
-<canvas id="confetti"></canvas>
-
-<div class="container">
-    <h1>🎉 Selamat Ulang Tahun, Sayangku 💖</h1>
-    <div class="typing">Semoga harimu penuh tawa dan cinta 🥰</div>
-    <p>Setiap detik bersamamu adalah hadiah terindah dalam hidupku 💫</p>
-
-    <button onclick="playMusic()">💗 Putar Musik</button>
+<!-- Slides -->
+<div class="slide active">
+    <img src="A4A97332-9237-4778-A9F2-44A787EABE05.jpeg" alt="foto1">
+    <h1>Selamat ulang tahun sayangku 💖</h1>
 </div>
 
+<div class="slide">
+    <img src="EDA3EDCC-8D82-4957-9E00-C5D9501BD266.jpeg" alt="foto2">
+    <h1>Terima kasih udah selalu sabar dan manis sama aku 🥰</h1>
+</div>
+
+<div class="slide">
+    <img src="F3BC1C4D-7A9F-402F-B242-ED7D0D7B3FBA.jpeg" alt="foto3">
+    <h1>Kita udah banyak banget lewat bareng, dan aku gak mau berhenti di sini 💫</h1>
+</div>
+
+<div class="slide">
+    <img src="758CEE6C-EC4E-4146-AC53-D980C0AE5DA8.jpeg" alt="foto4">
+    <h1>Semoga Allah jaga kamu untukku, dunia dan akhirat 🌙</h1>
+</div>
+
+<div class="slide">
+    <img src="1ED09AB5-CA7E-4DA3-B6AC-8E1E4A050D73.jpeg" alt="foto5">
+    <h1>Aku cinta kamu, selalu dan selamanya 💞</h1>
+</div>
+
+<div class="slide">
+    <img src="89E29DE3-7E3C-46FF-984D-F884CF212BEB.jpeg" alt="foto6">
+    <h1>💐 Happy Birthday, My Love 💐</h1>
+</div>
+
+<!-- Next Button -->
+<button id="nextBtn">Next ➜</button>
+
+<!-- Music Button -->
+<button id="musicBtn">🎵</button>
+
+<!-- Audio -->
 <audio id="bg-music" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9c5108f6d1.mp3?filename=romantic-piano-loop-11186.mp3" type="audio/mpeg">
+    <source src="https://drive.google.com/uc?export=download&id=13ZDfAVRE5_esndWgJWs4BfLI01QshBxX" type="audio/mpeg">
 </audio>
 
 <script>
-    // Musik Play
-    function playMusic() {
-        document.getElementById('bg-music').play();
-        alert('Musik menyala 🎶');
-    }
+    const slides = document.querySelectorAll('.slide');
+    const nextBtn = document.getElementById('nextBtn');
+    const music = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('musicBtn');
+    let index = 0;
 
-    // Konfeti Animasi
-    const canvas = document.getElementById("confetti");
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    nextBtn.addEventListener('click', () => {
+        slides[index].classList.remove('active');
+        index = (index + 1) % slides.length;
+        slides[index].classList.add('active');
+    });
 
-    const confetti = [];
-    for (let i = 0; i < 100; i++) {
-        confetti.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height - canvas.height,
-            r: Math.random() * 6 + 2,
-            d: Math.random() * 0.5 + 0.5,
-            color: `hsl(${Math.random() * 360}, 100%, 70%)`
-        });
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        confetti.forEach(c => {
-            ctx.beginPath();
-            ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2, false);
-            ctx.fillStyle = c.color;
-            ctx.fill();
-        });
-        update();
-    }
-
-    function update() {
-        confetti.forEach(c => {
-            c.y += c.d;
-            if (c.y > canvas.height) {
-                c.y = -10;
-                c.x = Math.random() * canvas.width;
-            }
-        });
-    }
-
-    setInterval(draw, 30);
+    musicBtn.addEventListener('click', () => {
+        if (music.paused) {
+            music.play();
+            musicBtn.textContent = "⏸️";
+        } else {
+            music.pause();
+            musicBtn.textContent = "🎵";
+        }
+    });
 </script>
 
 </body>
