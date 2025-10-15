@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ucapan Ulang Tahun</title>
+    <!-- Link ke Swiper.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <style>
+        /* CSS dasar di sini */
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #fff7e6; }
+        .swiper-container { width: 80%; padding-top: 50px; }
+        .slide { padding: 20px; }
+    </style>
+</head>
+<body>
+    <!-- Kontainer Swiper untuk slide -->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide slide">
+                <h2>🎉 Selamat Ulang Tahun ke-18 Sayangkuu!🎂</h2>
+                <p>Semoga ke depannya kamu lebih happy terus dan ga marah2 lagi sama mas</p>
+            </div>
+            <div class="swiper-slide slide">
+                <h2>💖 Dari Aku untuk Kamu 💖</h2>
+                <p>Aku bersyukur banget punya kamu di hidupku!</p>
+            </div>
+            <!-- Tambahin slide lain kalau mau -->
+        </div>
+    </div>
+
+    <!-- Elemen audio untuk musik -->
+    <audio id="bg-music" loop>
+        <source src="lagu-ultah.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Swiper.js dan inisialisasi -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper-container', { loop: true });
+        document.body.addEventListener('click', () => {
+            document.getElementById('bg-music').play();
+        }, { once: true });
+    </script>
+</body>
+</html>
