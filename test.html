@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Animasi Test</title>
+<title>Animasi Test Fix</title>
 <style>
 body{margin:0;background:linear-gradient(180deg,#74b9ff,#a29bfe);overflow:hidden;}
 canvas{position:fixed;top:0;left:0;}
@@ -11,23 +11,59 @@ canvas{position:fixed;top:0;left:0;}
 <body>
 <canvas id="sky"></canvas>
 <script>
-const c=document.getElementById('sky'),x=c.getContext('2d');
-c.width=innerWidth;c.height=innerHeight;
-const stars=Array.from({length:120},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2+0.5,blink:Math.random()}));
+const c=document.getElementById('sky');
+c.width=window.innerWidth;
+c.height=window.innerHeight;
+const x=c.getContext('2d');
+
+const stars=Array.from({length:120},()=>({
+  x:Math.random()*c.width,
+  y:Math.random()*c.height,
+  r:Math.random()*2+0.5,
+  blink:Math.random()
+}));
 let shooting=[];
-function spawn(){shooting.push({x:Math.random()*c.width,y:Math.random()*200,len:80,s:6});setTimeout(spawn,2000);}
+
+function spawn(){
+  shooting.push({
+    x:Math.random()*c.width,
+    y:Math.random()*200,
+    len:80,
+    s:6
+  });
+  setTimeout(spawn,2000+Math.random()*3000);
+}
 spawn();
+
 function draw(){
-x.clearRect(0,0,c.width,c.height);
-stars.forEach(s=>{s.blink+=.05;x.fillStyle=`rgba(255,255,255,${.6+.4*Math.sin(s.blink)})`;
-x.beginPath();x.arc(s.x,s.y,s.r,0,2*Math.PI);x.fill();});
-x.strokeStyle='white';x.lineWidth=2;
-shooting.forEach(s=>{x.beginPath();x.moveTo(s.x,s.y);x.lineTo(s.x-s.len,s.y+s.len/2);x.stroke();
-s.x-=s.s*2;s.y+=s.s;if(s.x<-s.len||s.y>c.height)s.remove=true;});
-shooting=shooting.filter(s=>!s.remove);
-requestAnimationFrame(draw);
+  x.clearRect(0,0,c.width,c.height);
+  stars.forEach(s=>{
+    s.blink+=.05;
+    x.fillStyle=`rgba(255,255,255,${.6+.4*Math.sin(s.blink)})`;
+    x.beginPath();
+    x.arc(s.x,s.y,s.r,0,2*Math.PI);
+    x.fill();
+  });
+  x.strokeStyle='white';
+  x.lineWidth=2;
+  shooting.forEach(s=>{
+    x.beginPath();
+    x.moveTo(s.x,s.y);
+    x.lineTo(s.x-s.len,s.y+s.len/2);
+    x.stroke();
+    s.x-=s.s*2;
+    s.y+=s.s;
+    if(s.x<-s.len||s.y>c.height)s.remove=true;
+  });
+  shooting=shooting.filter(s=>!s.remove);
+  requestAnimationFrame(draw);
 }
 draw();
+
+window.addEventListener('resize',()=>{
+  c.width=window.innerWidth;
+  c.height=window.innerHeight;
+});
 </script>
 </body>
 </html>
