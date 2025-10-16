@@ -4,187 +4,173 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Untukmu di Bawah Langit Malam 💙</title>
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
 
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  height: 100vh;
-  overflow: hidden;
-  background: linear-gradient(180deg, #8ec5fc, #e0c3fc);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Fredoka',sans-serif;
+  height:100vh;
+  overflow:hidden;
+  background:linear-gradient(180deg,#74b9ff,#a29bfe);
+  display:flex;justify-content:center;align-items:center;
+  color:#fff;user-select:none;-webkit-user-select:none;
 }
+canvas{position:fixed;top:0;left:0;z-index:1;}
 
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
+.slide{
+  position:absolute;
+  text-align:center;
+  transition:opacity 1s ease, transform 1.2s ease;
+  opacity:0;transform:scale(0.95);
+  z-index:2;width:90%;max-width:400px;
 }
+.slide.active{opacity:1;transform:scale(1);}
 
-.slide {
-  position: absolute;
-  text-align: center;
-  transition: opacity 1.5s ease;
-  opacity: 0;
-  z-index: 2;
+img{
+  width:100%;max-width:280px;height:auto;object-fit:cover;
+  border-radius:20px;border:3px solid white;
+  box-shadow:0 0 20px rgba(255,255,255,.4);
+  animation:float 3s ease-in-out infinite;
 }
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
 
-.slide.active {
-  opacity: 1;
+h1{
+  font-weight:600;margin-top:15px;font-size:1.3em;
+  text-shadow:2px 2px 8px rgba(0,0,0,.3);
+  padding:0 10px;opacity:0;animation:fadeInText 1.5s forwards;
 }
+@keyframes fadeInText{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
-img {
-  width: 280px;
-  height: 280px;
-  object-fit: cover;
-  border-radius: 20px;
-  border: 3px solid white;
-  box-shadow: 0 0 20px rgba(255,255,255,0.4);
-  animation: float 3s ease-in-out infinite;
+.tap-zone{position:fixed;top:0;bottom:0;width:50%;z-index:3;}
+#left{left:0;}#right{right:0;}
+
+@media(max-width:600px){
+  h1{font-size:1.1em;}
+  img{max-width:230px;}
 }
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-h1 {
-  font-family: 'Pacifico', cursive;
-  margin-top: 20px;
-  font-size: 1.5em;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-}
-
-.tap-zone {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  z-index: 3;
-}
-
-#left { left: 0; }
-#right { right: 0; }
 </style>
 </head>
+
 <body>
 
-<!-- Canvas bintang & bulan -->
 <canvas id="sky"></canvas>
 
-<!-- Slides -->
 <div class="slide active">
   <img src="foto1.jpeg" alt="foto1">
   <h1>Selamat ulang tahun ke-18 sayangkuu 💙</h1>
 </div>
-
 <div class="slide">
   <img src="foto2.jpeg" alt="foto2">
   <h1>Terima kasih udah selalu sabar banget sama mas yaa 🥰</h1>
 </div>
-
 <div class="slide">
   <img src="foto3.jpeg" alt="foto3">
   <h1>Kita udah banyak banget lewat bareng, dan mas gamau berhenti di sini 💫</h1>
 </div>
-
 <div class="slide">
   <img src="foto4.jpeg" alt="foto4">
   <h1>Semoga Allah jaga kamu untukku, dunia dan akhirat 🌙</h1>
 </div>
-
 <div class="slide">
   <img src="foto5.jpeg" alt="foto5">
   <h1>Semoga apa yang kamu inginkan segera tercapai yaa 💞</h1>
 </div>
-
 <div class="slide">
   <img src="foto6.jpeg" alt="foto6">
   <h1>💐 Love youuuu 💐</h1>
 </div>
 
-<!-- Zona tap -->
 <div class="tap-zone" id="left"></div>
 <div class="tap-zone" id="right"></div>
 
-<!-- Musik -->
-<audio id="bg-music" loop>
+<audio id="bg-music" loop muted autoplay playsinline>
   <source src="lagunya.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// Musik play saat pertama kali tap
-let started = false;
-const music = document.getElementById('bg-music');
-document.body.addEventListener('click', () => {
-  if (!started) {
+const isiOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+const music=document.getElementById('bg-music');
+let started=false;
+
+// Android autoplay (mute dulu)
+if(!isiOS){
+  document.addEventListener('DOMContentLoaded',()=>{
+    const p=music.play();
+    if(p!==undefined){p.catch(()=>{});}
+  });
+}
+// iOS harus tap
+document.body.addEventListener('click',()=>{
+  if(!started){
+    music.muted=false;
     music.play().catch(()=>{});
-    started = true;
+    started=true;
   }
 });
 
-// Slide logic
-const slides = document.querySelectorAll('.slide');
-let index = 0;
-
-document.getElementById('right').addEventListener('click', (e) => {
-  slides[index].classList.remove('active');
-  index = (index + 1) % slides.length;
-  slides[index].classList.add('active');
-});
-
-document.getElementById('left').addEventListener('click', (e) => {
-  slides[index].classList.remove('active');
-  index = (index - 1 + slides.length) % slides.length;
-  slides[index].classList.add('active');
-});
-
-// Animasi bintang & bulan
-const canvas = document.getElementById('sky');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const stars = Array.from({length: 120}, () => ({
-  x: Math.random() * canvas.width,
-  y: Math.random() * canvas.height,
-  r: Math.random() * 1.5 + 0.5,
-  s: Math.random() * 0.3 + 0.1
-}));
-
-let moon = { x: canvas.width * 0.8, y: 80, r: 40, dx: 0.05, dir: 1 };
-
-function drawSky() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  
-  // bintang
-  ctx.fillStyle = 'white';
-  stars.forEach(star => {
-    ctx.beginPath();
-    ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
-    ctx.fill();
-    star.x += star.s;
-    if (star.x > canvas.width) star.x = 0;
+// slide logic + animasi fade
+const slides=document.querySelectorAll('.slide');
+let index=0;
+function showSlide(i){
+  slides.forEach((s,idx)=>{
+    s.classList.toggle('active',idx===i);
+    const h=s.querySelector('h1');
+    if(idx===i){
+      h.style.animation='fadeInText 1.5s forwards';
+    }else{
+      h.style.animation='none';
+    }
   });
+}
+document.getElementById('right').addEventListener('click',()=>{
+  index=(index+1)%slides.length;showSlide(index);
+});
+document.getElementById('left').addEventListener('click',()=>{
+  index=(index-1+slides.length)%slides.length;showSlide(index);
+});
 
+// langit: bintang berkelip + bulan
+const canvas=document.getElementById('sky');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+
+const stars=Array.from({length:120},()=>({
+  x:Math.random()*canvas.width,
+  y:Math.random()*canvas.height,
+  r:Math.random()*1.5+0.5,
+  s:Math.random()*0.3+0.1,
+  blink:Math.random()
+}));
+let moon={x:canvas.width*0.8,y:80,r:40,dx:0.05,dir:1};
+
+function drawSky(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  // bintang
+  stars.forEach(star=>{
+    star.blink+=0.02;
+    const alpha=0.6+0.4*Math.sin(star.blink);
+    ctx.fillStyle=`rgba(255,255,255,${alpha})`;
+    ctx.beginPath();
+    ctx.arc(star.x,star.y,star.r,0,2*Math.PI);
+    ctx.fill();
+    star.x+=star.s;if(star.x>canvas.width)star.x=0;
+  });
   // bulan
   ctx.beginPath();
-  ctx.arc(moon.x, moon.y, moon.r, 0, Math.PI * 2);
-  ctx.fillStyle = '#fffbe0';
-  ctx.fill();
-
-  moon.y += moon.dx * moon.dir;
-  if (moon.y < 60 || moon.y > 100) moon.dir *= -1;
-
+  ctx.arc(moon.x,moon.y,moon.r,0,Math.PI*2);
+  ctx.fillStyle='#fffbe0';ctx.fill();
+  moon.y+=moon.dx*moon.dir;
+  if(moon.y<60||moon.y>100)moon.dir*=-1;
   requestAnimationFrame(drawSky);
 }
 drawSky();
+window.addEventListener('resize',()=>{
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+});
 </script>
-
 </body>
 </html>
