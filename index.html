@@ -20,12 +20,11 @@ canvas{position:fixed;top:0;left:0;z-index:1;}
 
 .slide{
   position:absolute;text-align:center;
-  transition:opacity 1s ease, transform 1.2s ease;
+  transition:opacity 1s ease,transform 1.2s ease;
   opacity:0;transform:scale(0.95);
   z-index:2;width:90%;max-width:400px;
 }
 .slide.active{opacity:1;transform:scale(1);}
-
 img{
   width:100%;max-width:280px;height:auto;object-fit:cover;
   border-radius:20px;border:3px solid white;
@@ -33,7 +32,6 @@ img{
   animation:float 3s ease-in-out infinite;
 }
 @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
-
 h1{
   font-weight:600;margin-top:15px;font-size:1.3em;
   text-shadow:2px 2px 8px rgba(0,0,0,.3);
@@ -45,17 +43,25 @@ h1{
 #left{left:0;}#right{right:0;}
 
 .butterfly{
-  position:fixed;width:25px;height:25px;
-  background:url('https://upload.wikimedia.org/wikipedia/commons/2/2b/Butterfly_animated.gif') no-repeat center/contain;
+  position:fixed;width:30px;height:30px;
+  background:url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center/contain;
   opacity:0.8;z-index:2;pointer-events:none;
-  animation:fly 12s linear infinite;
+  animation:fly 12s ease-in-out infinite;
 }
 @keyframes fly{
   0%{transform:translate(0,0) rotate(0deg);}
-  25%{transform:translate(30px,-50px) rotate(20deg);}
+  25%{transform:translate(40px,-50px) rotate(10deg);}
   50%{transform:translate(-40px,-100px) rotate(-10deg);}
   75%{transform:translate(20px,-150px) rotate(15deg);}
   100%{transform:translate(0,0) rotate(0deg);}
+}
+@keyframes fall{
+  0%{transform:translateY(-10px) scale(1);}
+  100%{transform:translateY(100vh) scale(1.5);opacity:0;}
+}
+.heart{
+  position:fixed;font-size:18px;color:#ff9ff3;
+  animation:fall 4s linear forwards;z-index:5;
 }
 
 @media(max-width:600px){
@@ -69,40 +75,22 @@ h1{
 
 <canvas id="sky"></canvas>
 
-<!-- butterflies kanan & kiri -->
-<div class="butterfly" style="left:20px;bottom:60px;animation-delay:0s;"></div>
-<div class="butterfly" style="right:20px;bottom:40px;animation-delay:4s;"></div>
+<!-- kupu-kupu kanan kiri -->
+<div class="butterfly" style="left:30px;bottom:50px;animation-delay:0s;"></div>
+<div class="butterfly" style="right:30px;bottom:30px;animation-delay:4s;"></div>
 
 <!-- slides -->
-<div class="slide active">
-  <img src="foto1.jpeg" alt="foto1">
-  <h1>Selamat ulang tahun ke-18 sayangkuu 💙</h1>
-</div>
-<div class="slide">
-  <img src="foto2.jpeg" alt="foto2">
-  <h1>Terima kasih udah selalu sabar banget sama mas yaa 🥰</h1>
-</div>
-<div class="slide">
-  <img src="foto3.jpeg" alt="foto3">
-  <h1>Kita udah banyak banget lewat bareng, dan mas gamau berhenti di sini 💫</h1>
-</div>
-<div class="slide">
-  <img src="foto4.jpeg" alt="foto4">
-  <h1>Semoga Allah jaga kamu untukku, dunia dan akhirat 🌙</h1>
-</div>
-<div class="slide">
-  <img src="foto5.jpeg" alt="foto5">
-  <h1>Semoga apa yang kamu inginkan segera tercapai yaa 💞</h1>
-</div>
-<div class="slide">
-  <img src="foto6.jpeg" alt="foto6">
-  <h1>💐 Love youuuu 💐</h1>
-</div>
+<div class="slide active"><img src="foto1.jpeg"><h1>Selamat ulang tahun ke-18 sayangkuu 💙</h1></div>
+<div class="slide"><img src="foto2.jpeg"><h1>Terima kasih udah selalu sabar banget sama mas yaa 🥰</h1></div>
+<div class="slide"><img src="foto3.jpeg"><h1>Kita udah banyak banget lewat bareng, dan mas gamau berhenti di sini 💫</h1></div>
+<div class="slide"><img src="foto4.jpeg"><h1>Semoga Allah jaga kamu untukku, dunia dan akhirat 🌙</h1></div>
+<div class="slide"><img src="foto5.jpeg"><h1>Semoga apa yang kamu inginkan segera tercapai yaa 💞</h1></div>
+<div class="slide"><img src="foto6.jpeg"><h1>💐 Love youuuu 💐</h1></div>
 
 <div class="tap-zone" id="left"></div>
 <div class="tap-zone" id="right"></div>
 
-<audio id="bg-music" loop muted autoplay playsinline>
+<audio id="bg-music" loop playsinline>
   <source src="lagunya.mp3" type="audio/mpeg">
 </audio>
 
@@ -111,31 +99,29 @@ const isiOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
 const music=document.getElementById('bg-music');
 let started=false;
 
-// Android autoplay (mute dulu)
-if(!isiOS){
-  document.addEventListener('DOMContentLoaded',()=>{
-    const p=music.play();
-    if(p!==undefined){p.catch(()=>{});}
-  });
-}
-// iOS: mulai setelah tap
+document.addEventListener('DOMContentLoaded',()=>{
+  if(!isiOS){
+    setTimeout(()=>{music.play().catch(()=>{});},1500);
+  }
+});
 document.body.addEventListener('click',()=>{
   if(!started){
-    music.muted=false;music.play().catch(()=>{});started=true;
+    music.play().catch(()=>{});
+    started=true;
   }
 });
 
-// slide logic + animasi fade
+// slide logic
 const slides=document.querySelectorAll('.slide');
 let index=0;
 function showSlide(i){
   slides.forEach((s,idx)=>{
     s.classList.toggle('active',idx===i);
     const h=s.querySelector('h1');
-    if(idx===i){
-      h.style.animation='fadeInText 1.5s forwards';
-    }else{h.style.animation='none';}
+    if(idx===i){h.style.animation='fadeInText 1.5s forwards';}
+    else{h.style.animation='none';}
   });
+  if(i===slides.length-1){startHearts();}
 }
 document.getElementById('right').addEventListener('click',()=>{
   index=(index+1)%slides.length;showSlide(index);
@@ -144,7 +130,7 @@ document.getElementById('left').addEventListener('click',()=>{
   index=(index-1+slides.length)%slides.length;showSlide(index);
 });
 
-// langit: bintang berkelip, bulan, & bintang jatuh
+// langit: bintang berkelip, bulan, bintang jatuh
 const canvas=document.getElementById('sky');
 const ctx=canvas.getContext('2d');
 canvas.width=window.innerWidth;canvas.height=window.innerHeight;
@@ -165,23 +151,24 @@ function spawnShootingStar(){
   shootingStars.push({x,y,len:Math.random()*80+100,speed:4});
   setTimeout(spawnShootingStar,4000+Math.random()*3000);
 }
-spawnShootingStar();
+setTimeout(spawnShootingStar,1000);
 
 function drawSky(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  // bintang berkelip
+  // bintang
   stars.forEach(star=>{
     star.blink+=0.02;
     const alpha=0.6+0.4*Math.sin(star.blink);
     ctx.fillStyle=`rgba(255,255,255,${alpha})`;
-    ctx.beginPath();ctx.arc(star.x,star.y,star.r,0,2*Math.PI);ctx.fill();
+    ctx.beginPath();
+    ctx.arc(star.x,star.y,star.r,0,2*Math.PI);
+    ctx.fill();
     star.x+=star.s;if(star.x>canvas.width)star.x=0;
   });
   // bintang jatuh
   ctx.strokeStyle='white';ctx.lineWidth=2;
-  shootingStars.forEach((s,i)=>{
-    ctx.beginPath();
-    ctx.moveTo(s.x,s.y);
+  shootingStars.forEach((s)=>{
+    ctx.beginPath();ctx.moveTo(s.x,s.y);
     ctx.lineTo(s.x-s.len,s.y+s.len/2);
     ctx.stroke();
     s.x+=-s.speed*2;s.y+=s.speed;
@@ -189,16 +176,33 @@ function drawSky(){
   });
   shootingStars=shootingStars.filter(s=>!s.remove);
   // bulan
-  ctx.beginPath();ctx.arc(moon.x,moon.y,moon.r,0,Math.PI*2);
+  ctx.beginPath();
+  ctx.arc(moon.x,moon.y,moon.r,0,Math.PI*2);
   ctx.fillStyle='#fffbe0';ctx.fill();
   moon.y+=moon.dx*moon.dir;
   if(moon.y<60||moon.y>100)moon.dir*=-1;
   requestAnimationFrame(drawSky);
 }
 drawSky();
+
 window.addEventListener('resize',()=>{
-  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
 });
+
+// love rain pada slide terakhir
+function startHearts(){
+  const interval=setInterval(()=>{
+    const heart=document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerHTML='❤️';
+    heart.style.left=Math.random()*100+'vw';
+    heart.style.animationDuration=(Math.random()*2+3)+'s';
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+  },300);
+  setTimeout(()=>clearInterval(interval),8000);
+}
 </script>
 </body>
 </html>
