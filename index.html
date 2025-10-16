@@ -10,10 +10,8 @@
 
 *{box-sizing:border-box;}
 body{
-  margin:0;
-  font-family:'Fredoka',sans-serif;
-  height:100vh;
-  overflow:hidden;
+  margin:0;font-family:'Fredoka',sans-serif;
+  height:100vh;overflow:hidden;
   background:linear-gradient(180deg,#74b9ff,#a29bfe);
   display:flex;justify-content:center;align-items:center;
   color:#fff;user-select:none;-webkit-user-select:none;
@@ -21,8 +19,7 @@ body{
 canvas{position:fixed;top:0;left:0;z-index:1;}
 
 .slide{
-  position:absolute;
-  text-align:center;
+  position:absolute;text-align:center;
   transition:opacity 1s ease, transform 1.2s ease;
   opacity:0;transform:scale(0.95);
   z-index:2;width:90%;max-width:400px;
@@ -47,6 +44,20 @@ h1{
 .tap-zone{position:fixed;top:0;bottom:0;width:50%;z-index:3;}
 #left{left:0;}#right{right:0;}
 
+.butterfly{
+  position:fixed;width:25px;height:25px;
+  background:url('https://upload.wikimedia.org/wikipedia/commons/2/2b/Butterfly_animated.gif') no-repeat center/contain;
+  opacity:0.8;z-index:2;pointer-events:none;
+  animation:fly 12s linear infinite;
+}
+@keyframes fly{
+  0%{transform:translate(0,0) rotate(0deg);}
+  25%{transform:translate(30px,-50px) rotate(20deg);}
+  50%{transform:translate(-40px,-100px) rotate(-10deg);}
+  75%{transform:translate(20px,-150px) rotate(15deg);}
+  100%{transform:translate(0,0) rotate(0deg);}
+}
+
 @media(max-width:600px){
   h1{font-size:1.1em;}
   img{max-width:230px;}
@@ -58,6 +69,11 @@ h1{
 
 <canvas id="sky"></canvas>
 
+<!-- butterflies kanan & kiri -->
+<div class="butterfly" style="left:20px;bottom:60px;animation-delay:0s;"></div>
+<div class="butterfly" style="right:20px;bottom:40px;animation-delay:4s;"></div>
+
+<!-- slides -->
 <div class="slide active">
   <img src="foto1.jpeg" alt="foto1">
   <h1>Selamat ulang tahun ke-18 sayangkuu 💙</h1>
@@ -102,12 +118,10 @@ if(!isiOS){
     if(p!==undefined){p.catch(()=>{});}
   });
 }
-// iOS harus tap
+// iOS: mulai setelah tap
 document.body.addEventListener('click',()=>{
   if(!started){
-    music.muted=false;
-    music.play().catch(()=>{});
-    started=true;
+    music.muted=false;music.play().catch(()=>{});started=true;
   }
 });
 
@@ -120,9 +134,7 @@ function showSlide(i){
     const h=s.querySelector('h1');
     if(idx===i){
       h.style.animation='fadeInText 1.5s forwards';
-    }else{
-      h.style.animation='none';
-    }
+    }else{h.style.animation='none';}
   });
 }
 document.getElementById('right').addEventListener('click',()=>{
@@ -132,7 +144,7 @@ document.getElementById('left').addEventListener('click',()=>{
   index=(index-1+slides.length)%slides.length;showSlide(index);
 });
 
-// langit: bintang berkelip + bulan
+// langit: bintang berkelip, bulan, & bintang jatuh
 const canvas=document.getElementById('sky');
 const ctx=canvas.getContext('2d');
 canvas.width=window.innerWidth;canvas.height=window.innerHeight;
@@ -145,22 +157,39 @@ const stars=Array.from({length:120},()=>({
   blink:Math.random()
 }));
 let moon={x:canvas.width*0.8,y:80,r:40,dx:0.05,dir:1};
+let shootingStars=[];
+
+function spawnShootingStar(){
+  const x=Math.random()*canvas.width;
+  const y=Math.random()*canvas.height*0.3;
+  shootingStars.push({x,y,len:Math.random()*80+100,speed:4});
+  setTimeout(spawnShootingStar,4000+Math.random()*3000);
+}
+spawnShootingStar();
 
 function drawSky(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  // bintang
+  // bintang berkelip
   stars.forEach(star=>{
     star.blink+=0.02;
     const alpha=0.6+0.4*Math.sin(star.blink);
     ctx.fillStyle=`rgba(255,255,255,${alpha})`;
-    ctx.beginPath();
-    ctx.arc(star.x,star.y,star.r,0,2*Math.PI);
-    ctx.fill();
+    ctx.beginPath();ctx.arc(star.x,star.y,star.r,0,2*Math.PI);ctx.fill();
     star.x+=star.s;if(star.x>canvas.width)star.x=0;
   });
+  // bintang jatuh
+  ctx.strokeStyle='white';ctx.lineWidth=2;
+  shootingStars.forEach((s,i)=>{
+    ctx.beginPath();
+    ctx.moveTo(s.x,s.y);
+    ctx.lineTo(s.x-s.len,s.y+s.len/2);
+    ctx.stroke();
+    s.x+=-s.speed*2;s.y+=s.speed;
+    if(s.x<-s.len||s.y>canvas.height)s.remove=true;
+  });
+  shootingStars=shootingStars.filter(s=>!s.remove);
   // bulan
-  ctx.beginPath();
-  ctx.arc(moon.x,moon.y,moon.r,0,Math.PI*2);
+  ctx.beginPath();ctx.arc(moon.x,moon.y,moon.r,0,Math.PI*2);
   ctx.fillStyle='#fffbe0';ctx.fill();
   moon.y+=moon.dx*moon.dir;
   if(moon.y<60||moon.y>100)moon.dir*=-1;
@@ -168,8 +197,7 @@ function drawSky(){
 }
 drawSky();
 window.addEventListener('resize',()=>{
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
 });
 </script>
 </body>
