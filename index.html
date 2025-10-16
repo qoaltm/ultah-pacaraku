@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <title>Untukmu di Bawah Langit Malam 💙</title>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap');
 
@@ -12,27 +11,19 @@
 body{
   font-family:'Baloo 2',cursive;
   background:linear-gradient(180deg,#74b9ff,#a29bfe);
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  color:#fff;
-  user-select:none;
-  -webkit-user-select:none;
+  overflow:hidden;height:100vh;
+  display:flex;justify-content:center;align-items:center;
+  color:#fff;user-select:none;-webkit-user-select:none;
 }
-
-canvas{position:fixed;top:0;left:0;z-index:1;}
+canvas{position:fixed;inset:0;z-index:1;}
 
 .slide{
-  position:absolute;
-  text-align:center;
+  position:absolute;text-align:center;
   transition:opacity 1s ease,transform 1.2s ease;
-  opacity:0;transform:scale(0.95);
-  z-index:2;width:90%;max-width:400px;
+  opacity:0;transform:scale(0.95);z-index:2;
+  width:90%;max-width:400px;
 }
 .slide.active{opacity:1;transform:scale(1);}
-
 img{
   width:100%;max-width:280px;height:auto;object-fit:cover;
   border-radius:20px;border:3px solid #fff;
@@ -40,47 +31,29 @@ img{
   animation:float 3s ease-in-out infinite;
 }
 @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
-
 h1{
   font-weight:600;margin-top:15px;font-size:1.3em;
   text-shadow:2px 2px 8px rgba(0,0,0,.3);
-  padding:0 10px;opacity:0;
-  animation:fadeInText 1.5s forwards;
+  padding:0 10px;opacity:0;animation:fadeInText 1.5s forwards;
 }
-@keyframes fadeInText{
-  from{opacity:0;transform:translateY(10px);}
-  to{opacity:1;transform:translateY(0);}
-}
+@keyframes fadeInText{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
 .tap-zone{position:fixed;top:0;bottom:0;width:50%;z-index:5;}
 #left{left:0;}#right{right:0;}
 
-/* kupu kupu svg anim */
 .butterfly{
-  position:fixed;
-  width:30px;height:30px;
-  background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path fill="%23ffb6c1" d="M32 32c-2 6-9 14-14 10s-3-10 4-15c-7-2-12-7-11-10s9-4 15 3c-1-7 2-12 6-12s7 5 6 12c6-7 14-5 15-3s-4 8-11 10c7 5 9 11 4 15s-12-4-14-10z"/></svg>') no-repeat center/contain;
-  opacity:0.9;
-  z-index:3;
+  position:fixed;width:28px;height:28px;z-index:3;opacity:.9;
+  background:url('data:image/svg+xml;utf8,\
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">\
+<path fill="%23ffc96b" d="M32 32c-2 6-9 14-14 10s-3-10 4-15c-7-2-12-7-11-10s9-4 15 3c-1-7 2-12 6-12s7 5 6 12c6-7 14-5 15-3s-4 8-11 10c7 5 9 11 4 15s-12-4-14-10z"/>\
+</svg>') center/contain no-repeat;
   pointer-events:none;
-  animation:fly 12s ease-in-out infinite;
-}
-@keyframes fly{
-  0%{transform:translate(0,0) rotate(0deg);}
-  25%{transform:translate(40px,-60px) rotate(10deg);}
-  50%{transform:translate(-40px,-120px) rotate(-10deg);}
-  75%{transform:translate(30px,-180px) rotate(15deg);}
-  100%{transform:translate(0,0) rotate(0deg);}
 }
 
-/* hearts */
 .heart{
-  position:fixed;
-  font-size:20px;
-  color:#ff9ff3;
-  top:-10px;
-  animation:fall 4s linear forwards;
-  z-index:4;
+  position:fixed;top:-10px;z-index:4;font-size:20px;color:#ff86a8;
+  animation:fall 5.5s linear forwards;
+  filter:drop-shadow(0 0 6px rgba(255,134,168,.6));
 }
 @keyframes fall{
   0%{transform:translateY(0) scale(1);opacity:1;}
@@ -97,36 +70,36 @@ h1{
 
 <canvas id="sky"></canvas>
 
-<!-- 4 kupu kupu -->
-<div class="butterfly" style="left:20px;bottom:40px;animation-delay:0s;"></div>
-<div class="butterfly" style="right:20px;bottom:30px;animation-delay:3s;"></div>
-<div class="butterfly" style="left:50px;bottom:120px;animation-delay:6s;"></div>
-<div class="butterfly" style="right:60px;bottom:150px;animation-delay:9s;"></div>
+<!-- 4 kupu-kupu -->
+<div class="butterfly" id="b1"></div>
+<div class="butterfly" id="b2"></div>
+<div class="butterfly" id="b3"></div>
+<div class="butterfly" id="b4"></div>
 
 <!-- slides -->
 <div class="slide active"><img src="foto1.jpeg"><h1>Selamat ulang tahun ke-18 sayangkuu 💙</h1></div>
 <div class="slide"><img src="foto2.jpeg"><h1>Terima kasih udah selalu sabar banget sama mas yaa 🥰</h1></div>
-<div class="slide"><img src="foto3.jpeg"><h1>Kita udah banyak banget lewat bareng, dan mas gamau berhenti di sini 💫</h1></div>
-<div class="slide"><img src="foto4.jpeg"><h1>Semoga Allah jaga kamu untukku, dunia dan akhirat 🌙</h1></div>
-<div class="slide"><img src="foto5.jpeg"><h1>Semoga apa yang kamu inginkan segera tercapai yaa 💞</h1></div>
+<div class="slide"><img src="foto3.jpeg"><h1>Udah banyak banget hal yang kita lalui bareng2, dan mas gamau berhenti di sini aja 💫</h1></div>
+<div class="slide"><img src="foto4.jpeg"><h1>Semoga Allah jaga hubungan kita berdua, dunia dan akhirat 🌙</h1></div>
+<div class="slide"><img src="foto5.jpeg"><h1>Dan semoga apa yang kamu inginkan segera tercapai yaa 💞</h1></div>
 <div class="slide"><img src="foto6.jpeg"><h1>💐 Love youuuu 💐</h1></div>
 
 <div class="tap-zone" id="left"></div>
 <div class="tap-zone" id="right"></div>
 
-<audio id="bg-music" loop autoplay playsinline>
+<audio id="bg-music" loop playsinline>
   <source src="lagunya.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-const isiOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+// ===== Musik =====
 const music=document.getElementById('bg-music');
 let started=false;
 document.addEventListener('click',()=>{
   if(!started){music.play().catch(()=>{});started=true;}
 });
 
-// slide logic
+// ===== Slides =====
 const slides=document.querySelectorAll('.slide');
 let index=0;
 function showSlide(i){
@@ -135,7 +108,7 @@ function showSlide(i){
     const h=s.querySelector('h1');
     h.style.animation=idx===i?'fadeInText 1.5s forwards':'none';
   });
-  if(i===slides.length-1){startHearts();}
+  if(i===slides.length-1)startHearts();
 }
 document.getElementById('right').addEventListener('click',()=>{
   index=(index+1)%slides.length;showSlide(index);
@@ -144,72 +117,98 @@ document.getElementById('left').addEventListener('click',()=>{
   index=(index-1+slides.length)%slides.length;showSlide(index);
 });
 
-// sky anim
-const canvas=document.getElementById('sky');
-const ctx=canvas.getContext('2d');
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-const stars=Array.from({length:130},()=>({
-  x:Math.random()*canvas.width,
-  y:Math.random()*canvas.height,
-  r:Math.random()*1.5+0.5,
-  blink:Math.random()
+// ===== Canvas Sky =====
+const canvas=document.getElementById('sky'),ctx=canvas.getContext('2d');
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
+resize();window.addEventListener('resize',resize);
+
+const stars=Array.from({length:140},()=>({
+  x:Math.random()*canvas.width,y:Math.random()*canvas.height,
+  r:Math.random()*1.5+0.5,blink:Math.random()*Math.PI*2
 }));
-let moon={x:canvas.width*0.8,y:80,r:40,dx:0.05,dir:1};
-let shootingStars=[];
-function spawnShootingStar(){
-  const x=Math.random()*canvas.width;
-  const y=Math.random()*canvas.height*0.3;
-  shootingStars.push({x,y,len:Math.random()*80+100,speed:4});
-  setTimeout(spawnShootingStar,4000+Math.random()*4000);
+let moon={x:canvas.width*0.82,y:84,r:40,dy:.05,dir:1};
+let meteors=[];
+function spawnMeteor(){
+  const x=Math.random()*canvas.width,y=Math.random()*canvas.height*0.3;
+  const len=Math.random()*90+110,speed=Math.random()*2+3.2;
+  meteors.push({x,y,len,speed,trail:[]});
+  setTimeout(spawnMeteor,3500+Math.random()*3500);
 }
-setTimeout(spawnShootingStar,1500);
+setTimeout(spawnMeteor,1400);
 function drawSky(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  stars.forEach(star=>{
-    star.blink+=0.02;
-    const a=0.6+0.4*Math.sin(star.blink);
+  // stars
+  for(let s of stars){
+    s.blink+=0.03;
+    const a=0.6+0.4*Math.sin(s.blink);
     ctx.fillStyle=`rgba(255,255,255,${a})`;
-    ctx.beginPath();
-    ctx.arc(star.x,star.y,star.r,0,2*Math.PI);
-    ctx.fill();
-  });
-  ctx.strokeStyle='white';ctx.lineWidth=2;
-  shootingStars.forEach((s,i)=>{
-    ctx.beginPath();
-    ctx.moveTo(s.x,s.y);
-    ctx.lineTo(s.x-s.len,s.y+s.len/2);
-    ctx.stroke();
-    s.x-=s.speed*2;s.y+=s.speed;
-    if(s.x<-s.len||s.y>canvas.height)s.remove=true;
-  });
-  shootingStars=shootingStars.filter(s=>!s.remove);
-  ctx.beginPath();
-  ctx.arc(moon.x,moon.y,moon.r,0,Math.PI*2);
-  ctx.fillStyle='#fffbe0';
-  ctx.fill();
-  moon.y+=moon.dx*moon.dir;
-  if(moon.y<60||moon.y>100)moon.dir*=-1;
+    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
+  }
+  // meteors
+  ctx.globalCompositeOperation='lighter';
+  for(let m of meteors){
+    ctx.shadowBlur=16;ctx.shadowColor='rgba(255,210,120,0.9)';
+    ctx.strokeStyle='rgba(255,220,130,0.85)';
+    ctx.lineWidth=2.2;
+    ctx.beginPath();ctx.moveTo(m.x,m.y);
+    ctx.lineTo(m.x-m.len,m.y+m.len/2);ctx.stroke();
+    m.trail.push({x:m.x,y:m.y,a:1});
+    for(let p of m.trail){
+      ctx.fillStyle=`rgba(255,200,120,${p.a})`;
+      ctx.beginPath();ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fill();
+      p.a-=0.03;
+    }
+    m.trail=m.trail.filter(p=>p.a>0.05);
+    m.x-=m.speed*2.2;m.y+=m.speed*1.1;
+  }
+  meteors=meteors.filter(m=>m.x>-m.len&&m.y<canvas.height);
+  ctx.globalCompositeOperation='source-over';
+  // moon
+  ctx.beginPath();ctx.arc(moon.x,moon.y,moon.r,0,Math.PI*2);
+  ctx.fillStyle='#fff7d0';ctx.fill();
+  moon.y+=moon.dy*moon.dir;if(moon.y<62||moon.y>102)moon.dir*=-1;
   requestAnimationFrame(drawSky);
 }
 drawSky();
-window.addEventListener('resize',()=>{
-  canvas.width=innerWidth;
-  canvas.height=innerHeight;
-});
 
-// love rain dari atas
+// ===== Kupu-kupu random movement =====
+const butterflies=[...document.querySelectorAll('.butterfly')];
+const area={w:window.innerWidth,h:window.innerHeight};
+butterflies.forEach(b=>{
+  b.dataset.x=Math.random()*area.w;
+  b.dataset.y=Math.random()*area.h;
+  b.dataset.dx=(Math.random()-.5)*1.5;
+  b.dataset.dy=(Math.random()-.5)*1.5;
+});
+function animateButterflies(){
+  butterflies.forEach(b=>{
+    let x=parseFloat(b.dataset.x),y=parseFloat(b.dataset.y);
+    let dx=parseFloat(b.dataset.dx),dy=parseFloat(b.dataset.dy);
+    x+=dx;y+=dy;
+    if(x<0||x>area.w-40)dx*=-1;
+    if(y<0||y>area.h-40)dy*=-1;
+    b.dataset.x=x;b.dataset.y=y;
+    b.dataset.dx=dx+(Math.random()-.5)*0.05;
+    b.dataset.dy=dy+(Math.random()-.5)*0.05;
+    b.style.transform=`translate(${x}px,${y}px) rotate(${dx*10}deg)`;
+  });
+  requestAnimationFrame(animateButterflies);
+}
+animateButterflies();
+
+// ===== Love Rain =====
 function startHearts(){
-  const interval=setInterval(()=>{
-    const heart=document.createElement('div');
-    heart.classList.add('heart');
-    heart.innerHTML='❤️';
-    heart.style.left=Math.random()*100+'vw';
-    heart.style.fontSize=(Math.random()*10+15)+'px';
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),5000);
-  },200);
-  setTimeout(()=>clearInterval(interval),8000);
+  if(window._heartsStarted)return;
+  window._heartsStarted=true;
+  setInterval(()=>{
+    const h=document.createElement('div');
+    h.className='heart';h.textContent='❤️';
+    h.style.left=Math.random()*100+'vw';
+    h.style.fontSize=(Math.random()*12+16)+'px';
+    h.style.animationDuration=(Math.random()*2+4)+'s';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),7000);
+  },220);
 }
 </script>
 </body>
