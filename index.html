@@ -3,170 +3,187 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Selamat Ulang Tahun Sayangkuu💖</title>
+<title>Untukmu di Bawah Langit Malam 💙</title>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500&display=swap');
 
-    * { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(180deg, #8ec5fc, #e0c3fc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
 
-    body {
-        margin: 0;
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        transition: background 1s ease;
-    }
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
 
-    .slide {
-        position: absolute;
-        text-align: center;
-        color: #fff;
-        opacity: 0;
-        transform: scale(0.95);
-        transition: opacity 1s ease, transform 1s ease;
-    }
+.slide {
+  position: absolute;
+  text-align: center;
+  transition: opacity 1.5s ease;
+  opacity: 0;
+  z-index: 2;
+}
 
-    .slide.active {
-        opacity: 1;
-        transform: scale(1);
-        z-index: 2;
-    }
+.slide.active {
+  opacity: 1;
+}
 
-    img {
-        width: 280px;
-        height: 280px;
-        object-fit: cover;
-        border-radius: 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        border: 4px solid #fff;
-        animation: float 3s ease-in-out infinite;
-    }
+img {
+  width: 280px;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 3px solid white;
+  box-shadow: 0 0 20px rgba(255,255,255,0.4);
+  animation: float 3s ease-in-out infinite;
+}
 
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
-    }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
 
-    h1 {
-        font-family: 'Pacifico', cursive;
-        margin-top: 20px;
-        font-size: 1.7em;
-        color: #fff;
-        text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
-    }
+h1 {
+  font-family: 'Pacifico', cursive;
+  margin-top: 20px;
+  font-size: 1.5em;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
 
-    #controls {
-        position: fixed;
-        bottom: 20px;
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        z-index: 10;
-    }
+.tap-zone {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 3;
+}
 
-    button {
-        background: #fff;
-        color: #ff7fa3;
-        border: none;
-        padding: 10px 25px;
-        border-radius: 25px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.3s;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-
-    button:hover {
-        background-color: #ffb6c1;
-        color: white;
-    }
-
-    #musicBtn {
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        padding: 0;
-    }
+#left { left: 0; }
+#right { right: 0; }
 </style>
 </head>
 <body>
 
+<!-- Canvas bintang & bulan -->
+<canvas id="sky"></canvas>
+
 <!-- Slides -->
 <div class="slide active">
-    <img src="foto1.jpeg" alt="foto1">
-    <h1>Selamat ulang tahun ke-18 sayangkuu💖</h1>
+  <img src="foto1.jpeg" alt="foto1">
+  <h1>Selamat ulang tahun ke-18 sayangkuu 💙</h1>
 </div>
 
 <div class="slide">
-    <img src="foto2.jpeg" alt="foto2">
-    <h1>Terima kasih udah selalu sabar banget sama mas yaa🥰</h1>
+  <img src="foto2.jpeg" alt="foto2">
+  <h1>Terima kasih udah selalu sabar banget sama mas yaa 🥰</h1>
 </div>
 
 <div class="slide">
-    <img src="foto3.jpeg" alt="foto3">
-    <h1>Kita udah banyak banget lewat bareng, dan mas gamau berhenti di sini💫</h1>
+  <img src="foto3.jpeg" alt="foto3">
+  <h1>Kita udah banyak banget lewat bareng, dan mas gamau berhenti di sini 💫</h1>
 </div>
 
 <div class="slide">
-    <img src="foto4.jpeg" alt="foto4">
-    <h1>Semoga Allah jaga kamu untukku, dunia dan akhirat 🌙</h1>
+  <img src="foto4.jpeg" alt="foto4">
+  <h1>Semoga Allah jaga kamu untukku, dunia dan akhirat 🌙</h1>
 </div>
 
 <div class="slide">
-    <img src="foto5.jpeg" alt="foto5">
-    <h1>Semoga apa yang kamu inginkan segera tercapai yaa💞</h1>
+  <img src="foto5.jpeg" alt="foto5">
+  <h1>Semoga apa yang kamu inginkan segera tercapai yaa 💞</h1>
 </div>
 
 <div class="slide">
-    <img src="foto6.jpeg" alt="foto6">
-    <h1>💐 Love youuuu 💐</h1>
+  <img src="foto6.jpeg" alt="foto6">
+  <h1>💐 Love youuuu 💐</h1>
 </div>
 
-<!-- Controls -->
-<div id="controls">
-    <button id="nextBtn">Next ➜</button>
-    <button id="musicBtn">🎵</button>
-</div>
+<!-- Zona tap -->
+<div class="tap-zone" id="left"></div>
+<div class="tap-zone" id="right"></div>
 
-<!-- Audio -->
+<!-- Musik -->
 <audio id="bg-music" loop>
-    <source src="https://drive.google.com/uc?export=download&id=13ZDfAVRE5_esndWgJWs4BfLI01QshBxX" type="audio/mpeg">
+  <source src="https://drive.google.com/uc?export=download&id=13ZDfAVRE5_esndWgJWs4BfLI01QshBxX" type="audio/mpeg">
 </audio>
 
 <script>
-    const slides = document.querySelectorAll('.slide');
-    const nextBtn = document.getElementById('nextBtn');
-    const music = document.getElementById('bg-music');
-    const musicBtn = document.getElementById('musicBtn');
-    let index = 0;
+// Musik play saat pertama kali tap
+let started = false;
+const music = document.getElementById('bg-music');
+document.body.addEventListener('click', () => {
+  if (!started) {
+    music.play().catch(()=>{});
+    started = true;
+  }
+});
 
-    // ganti slide
-    nextBtn.addEventListener('click', () => {
-        slides[index].classList.remove('active');
-        index = (index + 1) % slides.length;
-        slides[index].classList.add('active');
-    });
+// Slide logic
+const slides = document.querySelectorAll('.slide');
+let index = 0;
 
-    // play/pause musik
-    musicBtn.addEventListener('click', async () => {
-        try {
-            if (music.paused) {
-                await music.play();
-                musicBtn.textContent = "⏸️";
-            } else {
-                music.pause();
-                musicBtn.textContent = "🎵";
-            }
-        } catch (err) {
-            alert("Klik dulu layar atau tombol musik untuk memulai 🎶");
-        }
-    });
+document.getElementById('right').addEventListener('click', (e) => {
+  slides[index].classList.remove('active');
+  index = (index + 1) % slides.length;
+  slides[index].classList.add('active');
+});
+
+document.getElementById('left').addEventListener('click', (e) => {
+  slides[index].classList.remove('active');
+  index = (index - 1 + slides.length) % slides.length;
+  slides[index].classList.add('active');
+});
+
+// Animasi bintang & bulan
+const canvas = document.getElementById('sky');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const stars = Array.from({length: 120}, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  r: Math.random() * 1.5 + 0.5,
+  s: Math.random() * 0.3 + 0.1
+}));
+
+let moon = { x: canvas.width * 0.8, y: 80, r: 40, dx: 0.05, dir: 1 };
+
+function drawSky() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  
+  // bintang
+  ctx.fillStyle = 'white';
+  stars.forEach(star => {
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
+    ctx.fill();
+    star.x += star.s;
+    if (star.x > canvas.width) star.x = 0;
+  });
+
+  // bulan
+  ctx.beginPath();
+  ctx.arc(moon.x, moon.y, moon.r, 0, Math.PI * 2);
+  ctx.fillStyle = '#fffbe0';
+  ctx.fill();
+
+  moon.y += moon.dx * moon.dir;
+  if (moon.y < 60 || moon.y > 100) moon.dir *= -1;
+
+  requestAnimationFrame(drawSky);
+}
+drawSky();
 </script>
 
 </body>
